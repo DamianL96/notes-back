@@ -1,6 +1,7 @@
 package com.app.notes.model;
 
 
+import com.app.notes.dto.usuario.DtoRegistroUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,5 +27,13 @@ public class Usuario {
     private String nombre;
     private String password;
     private LocalDateTime fecha_creacion;
+
+
+    public Usuario(DtoRegistroUsuario datos){
+        this.id = null;
+        this.email = datos.email();
+        this.nombre = datos.nombre();
+        this.fecha_creacion = LocalDateTime.now();
+    }
 
 }
