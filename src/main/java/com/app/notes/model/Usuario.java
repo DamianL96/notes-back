@@ -33,6 +33,7 @@ public class Usuario {
         this.id = null;
         this.email = datos.email();
         this.nombre = datos.nombre();
+        this.password = datos.password();
         this.fecha_creacion = LocalDateTime.now();
     }
 
