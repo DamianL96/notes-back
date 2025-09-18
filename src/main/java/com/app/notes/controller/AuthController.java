@@ -1,5 +1,6 @@
 package com.app.notes.controller;
 
+import com.app.notes.dto.usuario.DtoLoginUsuario;
 import com.app.notes.dto.usuario.DtoRegistroUsuario;
 import com.app.notes.model.Usuario;
 import com.app.notes.repository.UsuarioRepository;
