@@ -3,8 +3,6 @@
 API para aplicación de notas con la característica de compartir y editar notas en conjunto con otros colaboradores.
 
 ![Estado](https://img.shields.io/badge/estado-en%20construcci%C3%B3n-yellow)
-![Licencia](https://img.shields.io/badge/licencia-MIT-blue)
-![Versión](https://img.shields.io/badge/versi%C3%B3n-1.0.0-green)
 
 ## Tabla de Contenidos
 
