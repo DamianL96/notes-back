@@ -3,10 +3,7 @@ package com.app.notes.User;
 
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +27,8 @@ public class Usuario implements UserDetails {
 
     private String email;
     private String nombre;
+
+    @Setter
     private String password;
     private LocalDateTime fecha_creacion;
 

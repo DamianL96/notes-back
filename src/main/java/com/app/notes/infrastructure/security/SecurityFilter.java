@@ -25,6 +25,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        //si es ruta de autenticacion no aplica el filtro
+        String ruta = request.getServletPath();
+        if(ruta.startsWith("/auth/")){
+            filterChain.doFilter(request,response);
+            return;
+        }
+
         System.out.println("security filter llamado");
         var tokenDeRequest = recuperarTokenDeRequest(request);
 

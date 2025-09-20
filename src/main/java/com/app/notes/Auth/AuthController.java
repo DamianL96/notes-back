@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,23 +31,41 @@ public class AuthController {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Transactional
     @PostMapping("/register")
-    public void registrar(@RequestBody @Valid DtoRegistroUsuario datos){
+    public ResponseEntity registrar(@RequestBody @Valid DtoRegistroUsuario datos){
+
+        if(usuarioRepository.findByEmail(datos.email()) !=null){
+            return ResponseEntity.badRequest().body("El usuario ya existe");
+        }
+
         var nuevoUsuario = new Usuario(datos);
+        nuevoUsuario.setPassword(passwordEncoder.encode(datos.password()));
         usuarioRepository.save(nuevoUsuario);
+
+        return ResponseEntity.ok("Usuario registrado exitosamente");
     }
 
     @Transactional
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid DtoLoginUsuario datos){
 
-        var authenticationToken = new UsernamePasswordAuthenticationToken(datos.email(),datos.password());
-        var autenticacion = manager.authenticate(authenticationToken);
+        try{
+            var authenticationToken = new UsernamePasswordAuthenticationToken(datos.email(),datos.password());
+            var autenticacion = manager.authenticate(authenticationToken);
 
-        var token = tokenService.generarToken((Usuario) autenticacion.getPrincipal());
+            var token = tokenService.generarToken((Usuario) autenticacion.getPrincipal());
 
-        return ResponseEntity.ok(new DTOTokenJWT(token));
+            return ResponseEntity.ok(new DTOTokenJWT(token));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Credenciales invalidas");
+        }
+
+
+
 
     }
 
