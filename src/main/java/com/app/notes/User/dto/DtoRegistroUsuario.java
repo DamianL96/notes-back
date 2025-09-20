@@ -1,4 +1,4 @@
-package com.app.notes.dto.usuario;
+package com.app.notes.User.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

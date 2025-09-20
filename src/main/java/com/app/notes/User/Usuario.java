@@ -1,7 +1,7 @@
-package com.app.notes.model;
+package com.app.notes.User;
 
 
-import com.app.notes.dto.usuario.DtoRegistroUsuario;
+import com.app.notes.User.dto.DtoRegistroUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

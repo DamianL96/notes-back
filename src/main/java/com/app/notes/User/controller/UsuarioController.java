@@ -1,8 +1,8 @@
-package com.app.notes.controller;
+package com.app.notes.User.controller;
 
-import com.app.notes.dto.usuario.DtoRegistroUsuario;
-import com.app.notes.model.Usuario;
-import com.app.notes.repository.UsuarioRepository;
+import com.app.notes.User.Usuario;
+import com.app.notes.User.dto.DtoRegistroUsuario;
+import com.app.notes.User.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

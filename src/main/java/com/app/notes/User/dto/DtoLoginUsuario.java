@@ -1,4 +1,4 @@
-package com.app.notes.dto.usuario;
+package com.app.notes.User.dto;
 
 public record DtoLoginUsuario(
         String email,
