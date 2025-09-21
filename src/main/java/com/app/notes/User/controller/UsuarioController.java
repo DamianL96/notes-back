@@ -15,14 +15,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UsuarioController {
 
-    @Autowired
-    UsuarioRepository usuarioRepository;
-
-    @Transactional
-    @PostMapping
-    public void registrar(@RequestBody @Valid DtoRegistroUsuario datos){
-
-        var nuevoUsuario = new Usuario(datos);
-        usuarioRepository.save(nuevoUsuario);
-    }
 }

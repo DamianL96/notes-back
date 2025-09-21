@@ -22,17 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
 
-    @Autowired
-    UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final AuthenticationManager manager;
+    private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    AuthenticationManager manager;
-
-    @Autowired
-    TokenService tokenService;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public AuthController(
+            UsuarioRepository usuarioRepository,
+            AuthenticationManager manager,
+            TokenService tokenService,
+            PasswordEncoder passwordEncoder
+    ){
+        this.usuarioRepository = usuarioRepository;
+        this.manager = manager;
+        this.tokenService = tokenService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional
     @PostMapping("/register")
