@@ -41,6 +41,12 @@ public class Usuario implements UserDetails {
         this.fecha_creacion = LocalDateTime.now();
     }
 
+    public Usuario(String email, String nombre, String password){
+        this.email = email;
+        this.nombre = nombre;
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

@@ -1,6 +1,7 @@
 package com.app.notes.Auth;
 
 import com.app.notes.User.Usuario;
+import com.app.notes.User.dto.DtoLoginUsuario;
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import com.app.notes.User.repository.UsuarioRepository;
 import com.app.notes.infrastructure.exceptions.EmailAlreadyExistsException;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,5 +62,21 @@ public class AuthServiceTest {
         verify(usuarioRepository, never()).save(any());
     }
 
+
+    @Test
+    void testLoginExitoso(){
+        DtoLoginUsuario dto = new DtoLoginUsuario("login@test.com","123456");
+        Usuario usuario = new Usuario("login@test.com","nombre login","hashed");
+        var authToken = new UsernamePasswordAuthenticationToken(dto.email(),dto.password());
+
+        when(manager.authenticate(authToken))
+                .thenReturn(new UsernamePasswordAuthenticationToken(usuario, null));
+
+        when(tokenService.generarToken(usuario))
+                .thenReturn("jwt-token");
+
+        var token = authService.login(dto);
+        assertEquals("jwt-token",token.tokenJWT());
+    }
 
 }
