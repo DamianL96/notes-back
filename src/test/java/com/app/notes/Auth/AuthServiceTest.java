@@ -1,7 +1,9 @@
 package com.app.notes.Auth;
 
+import com.app.notes.User.Usuario;
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import com.app.notes.User.repository.UsuarioRepository;
+import com.app.notes.infrastructure.exceptions.EmailAlreadyExistsException;
 import com.app.notes.infrastructure.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +14,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AuthServiceTest {
 
@@ -49,6 +51,14 @@ public class AuthServiceTest {
         verify(usuarioRepository).save(any());
     }
 
+    @Test
+    void testRegistrarUsuarioDuplicado(){
+        DtoRegistroUsuario dto = new DtoRegistroUsuario("existente@test.com","existente test","123456");
+        when(usuarioRepository.findByEmail(dto.email())).thenReturn(new Usuario());
+
+        assertThrows(EmailAlreadyExistsException.class, ()->authService.registrarUsuario(dto));
+        verify(usuarioRepository, never()).save(any());
+    }
 
 
 }
