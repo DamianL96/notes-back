@@ -22,34 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
 
-    private final UsuarioRepository usuarioRepository;
-    private final AuthenticationManager manager;
-    private final TokenService tokenService;
-    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(
-            UsuarioRepository usuarioRepository,
-            AuthenticationManager manager,
-            TokenService tokenService,
-            PasswordEncoder passwordEncoder
-    ){
-        this.usuarioRepository = usuarioRepository;
-        this.manager = manager;
-        this.tokenService = tokenService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Transactional
     @PostMapping("/register")
     public ResponseEntity registrar(@RequestBody @Valid DtoRegistroUsuario datos){
 
-        if(usuarioRepository.findByEmail(datos.email()) !=null){
-            return ResponseEntity.badRequest().body("El usuario ya existe");
-        }
 
-        var nuevoUsuario = new Usuario(datos);
-        nuevoUsuario.setPassword(passwordEncoder.encode(datos.password()));
-        usuarioRepository.save(nuevoUsuario);
 
         return ResponseEntity.ok("Usuario registrado exitosamente");
     }
