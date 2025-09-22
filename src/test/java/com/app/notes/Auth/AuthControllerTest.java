@@ -1,6 +1,7 @@
 package com.app.notes.Auth;
 
 import com.app.notes.User.Usuario;
+import com.app.notes.User.dto.DtoLoginUsuario;
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import com.app.notes.User.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -60,6 +61,18 @@ public class AuthControllerTest {
                 .andExpect(content().string("Ya existe un usuario con esa cuenta"));
     }
 
+    @Test
+    void testLoginExitoso() throws Exception{
+        usuarioRepository.save(new com.app.notes.User.Usuario(new DtoRegistroUsuario("login@test.com","nombre login", passwordEncoder.encode("123456"))));
 
+        DtoLoginUsuario dto = new DtoLoginUsuario("login@test.com","123456");
+
+        mockMvc.perform( post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.tokenJWT").exists());
+    }
 
 }
