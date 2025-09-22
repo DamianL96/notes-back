@@ -5,6 +5,7 @@ import com.app.notes.User.dto.DtoLoginUsuario;
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import com.app.notes.User.repository.UsuarioRepository;
 import com.app.notes.infrastructure.exceptions.EmailAlreadyExistsException;
+import com.app.notes.infrastructure.exceptions.InvalidCredentialsException;
 import com.app.notes.infrastructure.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,6 +78,17 @@ public class AuthServiceTest {
 
         var token = authService.login(dto);
         assertEquals("jwt-token",token.tokenJWT());
+    }
+
+    @Test
+    void testLoginFallido(){
+        DtoLoginUsuario dto = new DtoLoginUsuario("fail@test.com","wrongpass");
+        var authToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
+
+        when(manager.authenticate(authToken))
+                .thenThrow(new RuntimeException("Bad credentials"));
+
+        assertThrows(InvalidCredentialsException.class, ()-> authService.login(dto));
     }
 
 }
