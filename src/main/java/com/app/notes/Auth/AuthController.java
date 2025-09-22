@@ -8,6 +8,7 @@ import com.app.notes.infrastructure.security.DTOTokenJWT;
 import com.app.notes.infrastructure.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,35 +23,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
 
+    private final AuthService authService;
 
+    public AuthController(AuthService authServ){
+        this.authService = authServ;
+    }
 
     @Transactional
     @PostMapping("/register")
-    public ResponseEntity registrar(@RequestBody @Valid DtoRegistroUsuario datos){
-
-
-
-        return ResponseEntity.ok("Usuario registrado exitosamente");
+    public ResponseEntity<String> registrar(@RequestBody @Valid DtoRegistroUsuario datos){
+        String message= authService.registrarUsuario(datos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
     @Transactional
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid DtoLoginUsuario datos){
-
-        try{
-            var authenticationToken = new UsernamePasswordAuthenticationToken(datos.email(),datos.password());
-            var autenticacion = manager.authenticate(authenticationToken);
-
-            var token = tokenService.generarToken((Usuario) autenticacion.getPrincipal());
-
-            return ResponseEntity.ok(new DTOTokenJWT(token));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("Credenciales invalidas");
-        }
-
-
-
-
+    public ResponseEntity<DTOTokenJWT> login(@RequestBody @Valid DtoLoginUsuario datos){
+        DTOTokenJWT token = authService.login(datos);
+        return ResponseEntity.ok(token);
     }
 
 }
