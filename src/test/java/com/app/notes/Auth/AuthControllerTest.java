@@ -75,4 +75,16 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.tokenJWT").exists());
     }
 
+    @Test
+    void testLoginFallido() throws Exception{
+
+        DtoLoginUsuario dto = new DtoLoginUsuario("wrong@test.com","123456");
+
+        mockMvc.perform( post("/auth/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Credenciales invalidas"));
+    }
+
 }
