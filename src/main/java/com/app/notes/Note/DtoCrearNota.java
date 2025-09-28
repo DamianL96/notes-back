@@ -1,4 +1,7 @@
 package com.app.notes.Note;
 
-public record DtoCrearNota() {
-}
+import jakarta.validation.constraints.NotBlank;
+
+public record DtoCrearNota(
+        @NotBlank String titulo
+){}
