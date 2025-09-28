@@ -8,8 +8,6 @@ import com.app.notes.infrastructure.exceptions.EmailAlreadyExistsException;
 import com.app.notes.infrastructure.exceptions.InvalidCredentialsException;
 import com.app.notes.infrastructure.security.DTOTokenJWT;
 import com.app.notes.infrastructure.security.TokenService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
