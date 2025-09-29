@@ -23,7 +23,8 @@ public class NotaController {
     }
 
     @GetMapping("/{id}")
-    public DtoDetalleNota mostrarDetalle(){
-
+    public ResponseEntity mostrarDetalle(@PathVariable Long id){
+        var nota = notaRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DtoDetalleNota(nota));
     }
 }
