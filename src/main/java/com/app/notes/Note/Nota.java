@@ -41,4 +41,6 @@ public class Nota {
         }
         this.fecha_modificacion = LocalDateTime.now();
     }
+
+
 }

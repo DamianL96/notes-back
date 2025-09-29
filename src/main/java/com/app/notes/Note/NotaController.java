@@ -36,4 +36,12 @@ public class NotaController {
         nota.actiualizarDatos(datos);
         return ResponseEntity.ok(new DtoDetalleNota(nota));
     }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity eliminarNota(@PathVariable Long id){
+        notaRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
