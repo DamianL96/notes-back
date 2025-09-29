@@ -3,18 +3,27 @@ package com.app.notes.Note;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("notas")
 public class NotaController {
 
+    private final NotaRepository notaRepository;
+
+    public NotaController( NotaRepository notaRepo){
+        this.notaRepository = notaRepo;
+    }
+
     @PostMapping
     public ResponseEntity crear(@RequestBody @Valid DtoCrearNota datos){
-        System.out.println(datos);
-        return ResponseEntity.status(HttpStatus.CREATED).body(datos.titulo());
+        var nota = new Nota(datos);
+        notaRepository.save(nota);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nota);
+    }
+
+    @GetMapping("/{id}")
+    public DtoDetalleNota mostrarDetalle(){
+
     }
 }

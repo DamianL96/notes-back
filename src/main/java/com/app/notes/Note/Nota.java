@@ -28,4 +28,7 @@ public class Nota {
     private LocalDateTime fecha_modificacion;
 
 
+    public Nota(DtoCrearNota datos){
+        this.fecha_creacion = LocalDateTime.now();
+    }
 }
