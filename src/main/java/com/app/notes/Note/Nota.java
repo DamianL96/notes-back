@@ -31,4 +31,14 @@ public class Nota {
     public Nota(DtoCrearNota datos){
         this.fecha_creacion = LocalDateTime.now();
     }
+
+    public void actiualizarDatos(DtoModificarNota datos){
+        if(datos.titulo() != null){
+            this.titulo = datos.titulo();
+        }
+        if(datos.cuerpo() != null){
+            this.cuerpo = datos.cuerpo();
+        }
+        this.fecha_modificacion = LocalDateTime.now();
+    }
 }

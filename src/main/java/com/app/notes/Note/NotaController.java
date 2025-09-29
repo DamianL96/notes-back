@@ -3,6 +3,7 @@ package com.app.notes.Note;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,8 +24,16 @@ public class NotaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity mostrarDetalle(@PathVariable Long id){
+    public ResponseEntity mostrarDetalleNota(@PathVariable Long id){
         var nota = notaRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DtoDetalleNota(nota));
+    }
+
+    @Transactional
+    @PutMapping
+    public ResponseEntity modificarNota(@RequestBody @Valid DtoModificarNota datos){
+        var nota = notaRepository.getReferenceById(datos.id());
+        nota.actiualizarDatos(datos);
         return ResponseEntity.ok(new DtoDetalleNota(nota));
     }
 }
