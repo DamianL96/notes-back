@@ -1,4 +1,6 @@
-package com.app.notes.Note;
+package com.app.notes.Note.dto;
+
+import com.app.notes.Note.Nota;
 
 import java.time.LocalDateTime;
 

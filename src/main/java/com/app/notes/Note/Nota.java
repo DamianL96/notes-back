@@ -1,5 +1,7 @@
 package com.app.notes.Note;
 
+import com.app.notes.Note.dto.DtoCrearNota;
+import com.app.notes.Note.dto.DtoModificarNota;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

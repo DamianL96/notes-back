@@ -1,5 +1,8 @@
 package com.app.notes.Note;
 
+import com.app.notes.Note.dto.DtoCrearNota;
+import com.app.notes.Note.dto.DtoDetalleNota;
+import com.app.notes.Note.dto.DtoModificarNota;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

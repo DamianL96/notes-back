@@ -1,4 +1,4 @@
-package com.app.notes.Note;
+package com.app.notes.Note.dto;
 
 import jakarta.validation.constraints.NotNull;
 
