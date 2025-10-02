@@ -13,37 +13,34 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("notas")
 public class NotaController {
 
-    private final NotaRepository notaRepository;
 
-    public NotaController( NotaRepository notaRepo){
-        this.notaRepository = notaRepo;
+    private final NotaService notaService;
+
+    public NotaController( NotaService notaServ){
+        this.notaService = notaServ;
     }
 
     @PostMapping
     public ResponseEntity crear(@RequestBody @Valid DtoCrearNota datos){
-        var nota = new Nota(datos);
-        notaRepository.save(nota);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nota);
+        var detalleDeNota = notaService.crearNota(datos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(detalleDeNota);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity mostrarDetalleNota(@PathVariable Long id){
-        var nota = notaRepository.getReferenceById(id);
-        return ResponseEntity.ok(new DtoDetalleNota(nota));
+        var detalleDeNota = notaService.mostrarDetalleNota(id);
+        return ResponseEntity.ok(detalleDeNota);
     }
 
-    @Transactional
     @PutMapping
     public ResponseEntity modificarNota(@RequestBody @Valid DtoModificarNota datos){
-        var nota = notaRepository.getReferenceById(datos.id());
-        nota.actiualizarDatos(datos);
-        return ResponseEntity.ok(new DtoDetalleNota(nota));
+        var detalleDeNota = notaService.modificarNota(datos);
+        return ResponseEntity.ok(detalleDeNota);
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity eliminarNota(@PathVariable Long id){
-        notaRepository.deleteById(id);
+        notaService.eliminarNota(id);
         return ResponseEntity.noContent().build();
     }
 
