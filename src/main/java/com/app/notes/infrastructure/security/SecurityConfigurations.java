@@ -29,7 +29,7 @@ public class SecurityConfigurations {
                 .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests( (req)->{
                     req
-                            .requestMatchers(HttpMethod.POST, "/auth/**", "/login", "/register").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/v1/auth/**", "/api/v1/login", "/api/v1/register").permitAll()
                             .anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

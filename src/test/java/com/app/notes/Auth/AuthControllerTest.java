@@ -67,7 +67,7 @@ public class AuthControllerTest {
 
         DtoLoginUsuario dto = new DtoLoginUsuario("login@test.com","123456");
 
-        mockMvc.perform( post("/auth/login")
+        mockMvc.perform( post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
                 .andDo(print())
@@ -80,7 +80,7 @@ public class AuthControllerTest {
 
         DtoLoginUsuario dto = new DtoLoginUsuario("wrong@test.com","123456");
 
-        mockMvc.perform( post("/auth/login")
+        mockMvc.perform( post("/api/v1/auth/login")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isUnauthorized())
