@@ -12,15 +12,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/colaboracion")
 @RestController
 public class ColaboracionController {
-
-    /*@PostMapping
-    public ResponseEntity crear(
-            @RequestBody @Valid DtoCrearColaboracion datos,
-            @AuthenticationPrincipal Usuario usuario)
-    {
-
-        return ResponseEntity.ok().body("Colaboracion creacional creada con exito");
-    }*/
-
-
 }
