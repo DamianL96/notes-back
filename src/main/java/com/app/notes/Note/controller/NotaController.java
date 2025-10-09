@@ -1,10 +1,13 @@
-package com.app.notes.Note;
+package com.app.notes.Note.controller;
 
+import com.app.notes.Note.NotaService;
 import com.app.notes.Note.dto.DtoCrearNota;
 import com.app.notes.Note.dto.DtoModificarNota;
+import com.app.notes.User.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,8 +22,8 @@ public class NotaController {
     }
 
     @PostMapping
-    public ResponseEntity crear(@RequestBody @Valid DtoCrearNota datos){
-        var detalleDeNota = notaService.crearNota(datos);
+    public ResponseEntity crear(@AuthenticationPrincipal Usuario usuario){
+        var detalleDeNota = notaService.crearNota(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(detalleDeNota);
     }
 

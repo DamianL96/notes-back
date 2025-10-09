@@ -59,8 +59,6 @@ public class AuthService {
         }catch (Exception e){
             throw new InvalidCredentialsException("Credenciales invalidas");
         }
-
-
     }
 
 }

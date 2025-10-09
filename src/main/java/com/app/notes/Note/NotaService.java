@@ -1,9 +1,10 @@
 package com.app.notes.Note;
 
+import com.app.notes.Colaboration.ColaboracionService;
 import com.app.notes.Note.dto.DtoCrearNota;
 import com.app.notes.Note.dto.DtoDetalleNota;
 import com.app.notes.Note.dto.DtoModificarNota;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.app.notes.User.Usuario;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,16 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class NotaService {
 
     private final NotaRepository notaRepository;
+    private final ColaboracionService colaboracionService;
 
-    public NotaService( NotaRepository notaRepo){
+    public NotaService( NotaRepository notaRepo, ColaboracionService colaboracionServ){
         this.notaRepository = notaRepo;
+        this.colaboracionService = colaboracionServ;
     }
 
-    public DtoDetalleNota crearNota(DtoCrearNota datos){
-        //verificar que el usuario esté autenticado
-
-        var nota = new Nota(datos);
-        notaRepository.save(nota);
+    public DtoDetalleNota crearNota(Usuario usuario){
+        var nota = new Nota();//crea la nota vacia
+        var notaGuardada = notaRepository.save(nota);//guarda la nota y asigna un id
+        colaboracionService.crearColaboracionPropietario(usuario,notaGuardada);//crea la colaboracion
         return new DtoDetalleNota(nota);
     }
 

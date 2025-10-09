@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(of="id")
 
 public class Nota {
@@ -30,7 +29,7 @@ public class Nota {
     private LocalDateTime fecha_modificacion;
 
 
-    public Nota(DtoCrearNota datos){
+    public Nota(){
         this.fecha_creacion = LocalDateTime.now();
     }
 

@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Table(name="colaboraciones")
 @Entity(name="Colaboracion")
 
@@ -23,15 +25,31 @@ public class Colaboracion {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nota_id")
+    @JoinColumn(name = "id_nota")
     private Nota nota;
 
     @Column(name = "rol")
     @Enumerated(EnumType.STRING)
     private Rol rol;
+
+    private LocalDateTime creado_en;
+
+    public Colaboracion(Usuario usuario, Nota nota){
+        this.usuario = usuario;
+        this.nota = nota;
+        this.rol = Rol.PROPIETARIO;
+        this.creado_en = LocalDateTime.now();
+    }
+
+    public Colaboracion(Usuario usuario, Nota nota, Rol rol){
+        this.usuario = usuario;
+        this.nota = nota;
+        this.rol = rol;
+        this.creado_en = LocalDateTime.now();
+    }
 
 }
