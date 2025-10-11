@@ -1,7 +1,9 @@
 package com.app.notes.User.services;
 
+import com.app.notes.User.Usuario;
 import com.app.notes.User.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioService {
@@ -12,8 +14,10 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepo;
     }
 
-    public void mostrarDetalleUsuario(Long id){
-
+    @Transactional
+    public void modificarNombreUsuario(Long id, String nombre){
+        Usuario usuario = usuarioRepository.getReferenceById(id);
+        usuario.setNombre(nombre);
     }
 
 

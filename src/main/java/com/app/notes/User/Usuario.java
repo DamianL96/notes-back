@@ -26,6 +26,7 @@ public class Usuario implements UserDetails {
     private Long id;
 
     private String email;
+    @Setter
     private String nombre;
 
     @Setter
