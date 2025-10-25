@@ -1,7 +1,7 @@
-package com.app.notes.Note.controller;
+package com.app.notes.Colaboration.controller;
 
 import com.app.notes.Colaboration.ColaboracionService;
-import com.app.notes.Colaboration.DtoAgregarColaborador;
+import com.app.notes.Colaboration.dto.DtoAgregarColaborador;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

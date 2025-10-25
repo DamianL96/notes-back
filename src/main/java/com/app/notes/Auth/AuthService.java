@@ -1,6 +1,7 @@
 package com.app.notes.Auth;
 
 import com.app.notes.User.Usuario;
+import com.app.notes.User.dto.DtoDetalleUsuario;
 import com.app.notes.User.dto.DtoLoginUsuario;
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import com.app.notes.User.repository.UsuarioRepository;
@@ -35,7 +36,7 @@ public class AuthService {
     }
     //al ser una transaccion en la base de datos, si ocurre un error se cancela la operacion completamente
     @Transactional
-    public String registrarUsuario(DtoRegistroUsuario datos){
+    public DtoDetalleUsuario registrarUsuario(DtoRegistroUsuario datos){
 
         if(usuarioRepository.findByEmail(datos.email()) !=null){
             throw new EmailAlreadyExistsException("Ya existe un usuario con esa cuenta"); //la captura el AuthExceptionHandler
@@ -45,7 +46,8 @@ public class AuthService {
         nuevoUsuario.setPassword(passwordEncoder.encode(datos.password()));
         usuarioRepository.save(nuevoUsuario);
 
-        return "El usuario se creó correctamente";
+
+        return new DtoDetalleUsuario(nuevoUsuario);
     }
 
     public DTOTokenJWT login(DtoLoginUsuario datos){

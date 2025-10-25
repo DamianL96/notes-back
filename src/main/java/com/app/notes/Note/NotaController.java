@@ -1,7 +1,5 @@
-package com.app.notes.Note.controller;
+package com.app.notes.Note;
 
-import com.app.notes.Note.NotaService;
-import com.app.notes.Note.dto.DtoCrearNota;
 import com.app.notes.Note.dto.DtoModificarNota;
 import com.app.notes.User.Usuario;
 import jakarta.validation.Valid;

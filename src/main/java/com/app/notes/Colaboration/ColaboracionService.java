@@ -1,10 +1,15 @@
 package com.app.notes.Colaboration;
 
+import com.app.notes.Colaboration.dto.DtoAgregarColaborador;
 import com.app.notes.Note.Nota;
 import com.app.notes.User.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class ColaboracionService {
@@ -35,4 +40,10 @@ public class ColaboracionService {
         colaboracionRepository.deleteById(id_colaboracion);
     }
 
+    public List<Colaboracion> listarColaboraciones(Long id){
+        List<Colaboracion> colaboraciones = colaboracionRepository.findByUsuarioId(id);
+
+        
+        return colaboraciones;
+    }
 }

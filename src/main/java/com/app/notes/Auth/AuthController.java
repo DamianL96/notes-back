@@ -1,5 +1,6 @@
 package com.app.notes.Auth;
 
+import com.app.notes.User.dto.DtoDetalleUsuario;
 import com.app.notes.User.dto.DtoLoginUsuario;
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import com.app.notes.User.Usuario;
@@ -31,9 +32,9 @@ public class AuthController {
 
     @Transactional
     @PostMapping("/register")
-    public ResponseEntity<String> registrar(@RequestBody @Valid DtoRegistroUsuario datos){
-        String message= authService.registrarUsuario(datos);
-        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+    public ResponseEntity<DtoDetalleUsuario> registrar(@RequestBody @Valid DtoRegistroUsuario datos){
+        DtoDetalleUsuario dto = authService.registrarUsuario(datos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package com.app.notes.Auth;
 
 import com.app.notes.User.Usuario;
+import com.app.notes.User.dto.DtoDetalleUsuario;
 import com.app.notes.User.dto.DtoLoginUsuario;
 import com.app.notes.User.dto.DtoRegistroUsuario;
 import com.app.notes.User.repository.UsuarioRepository;
@@ -47,9 +48,9 @@ public class AuthServiceTest {
         when(usuarioRepository.findByEmail(dto.email())).thenReturn(null);
         when(passwordEncoder.encode(dto.password())).thenReturn("Hashed");
 
-        String result = authService.registrarUsuario(dto);
+        DtoDetalleUsuario result = authService.registrarUsuario(dto);
 
-        assertEquals("El usuario se creó correctamente",result);
+        assertEquals("El usuario se creó correctamente",result); //corregir test
 
         verify(usuarioRepository).save(any());
     }
