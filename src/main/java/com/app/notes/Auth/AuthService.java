@@ -46,7 +46,6 @@ public class AuthService {
         nuevoUsuario.setPassword(passwordEncoder.encode(datos.password()));
         usuarioRepository.save(nuevoUsuario);
 
-
         return new DtoDetalleUsuario(nuevoUsuario);
     }
 
