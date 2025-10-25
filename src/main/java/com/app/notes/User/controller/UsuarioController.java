@@ -17,21 +17,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UsuarioController {
 
-    private final UsuarioService usuarioSrevice;
+    private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioSrev){
-        this.usuarioSrevice = usuarioSrev;
+        this.usuarioService = usuarioSrev;
     }
 
-    @GetMapping
-    public DtoDetalleUsuario mostrarDetalleUsuario(@AuthenticationPrincipal Usuario usuario){
-        return new DtoDetalleUsuario(usuario);
+    @GetMapping("/me")
+    public ResponseEntity<DtoDetalleUsuario> mostrarDetalleUsuario(@AuthenticationPrincipal Usuario usuario){
+        return ResponseEntity.ok(new DtoDetalleUsuario(usuario));
     }
 
     @PutMapping
-    public ResponseEntity modificarNombreUsuario(@AuthenticationPrincipal Usuario usuario, @RequestBody DtoModificarNombreUsuario datos){
-        usuarioSrevice.modificarNombreUsuario(usuario.getId(), datos.nombre());
-        return ResponseEntity.ok().body("Usuario modificado con exito");
+    public ResponseEntity<DtoDetalleUsuario> modificarNombreUsuario(@AuthenticationPrincipal Usuario usuario, @RequestBody @Valid DtoModificarNombreUsuario datos){
+        DtoDetalleUsuario dto = usuarioService.modificarNombreUsuario(usuario.getId(), datos);
+        return ResponseEntity.ok().body(dto);
     }
 
 }

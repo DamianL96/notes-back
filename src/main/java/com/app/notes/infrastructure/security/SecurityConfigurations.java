@@ -1,14 +1,21 @@
 package com.app.notes.infrastructure.security;
 
+import com.app.notes.User.Usuario;
+import com.app.notes.User.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,6 +27,9 @@ public class SecurityConfigurations {
 
     @Autowired
     SecurityFilter securityFilter;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -43,5 +53,16 @@ public class SecurityConfigurations {
 
     @Bean
     public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
+
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return email ->{
+            Usuario usuario = usuarioRepository.findByEmail(email);
+            if (usuario == null){
+                throw new UsernameNotFoundException("Usuario no encontrado");
+            }
+            return usuario;
+        };
+    }
 
 }
