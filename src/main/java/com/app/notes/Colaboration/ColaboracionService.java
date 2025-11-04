@@ -1,16 +1,17 @@
 package com.app.notes.Colaboration;
 
 import com.app.notes.Colaboration.dto.DtoAgregarColaborador;
+import com.app.notes.Colaboration.dto.DtoMisColaboraciones;
 import com.app.notes.Note.Nota;
 import com.app.notes.User.Usuario;
 import com.app.notes.infrastructure.exceptions.ColaborationNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,9 +56,10 @@ public class ColaboracionService {
     }
 
 
-    public List<Colaboracion> listarColaboraciones(Long id){
-        List<Colaboracion> colaboraciones = colaboracionRepository.findByUsuarioId(id);
-        return colaboraciones;
+    public Page<DtoMisColaboraciones> listarColaboraciones(Long id, Pageable paginacion){
+        //List<Colaboracion> colaboraciones = colaboracionRepository.findByUsuarioId(id);
+        Page<Colaboracion> page = colaboracionRepository.findByUsuarioId(id,paginacion);
+        return page.map(DtoMisColaboraciones::new);
     }
 
     public List<Colaboracion> listarColaboradores(Long id){
