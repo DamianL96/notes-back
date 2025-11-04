@@ -31,12 +31,14 @@ public class ColaboracionService {
     }
 
     //buscar colaboracion de un usuario y nota especificamente
-    public void verificarColaboracionUsuarioNota(Long id_nota, Long id_usuario){
+    public Colaboracion verificarColaboracionUsuarioNota(Long id_nota, Long id_usuario){
         Optional<Colaboracion> colaboracion =
                 colaboracionRepository.findByUsuarioIdAndNotaId(id_usuario, id_nota);
 
         if(colaboracion.isEmpty()){
             throw new ColaborationNotFoundException("No existe una colaboracion entre el usuario"+id_usuario+" y la nota "+id_nota);
+        }else {
+            return colaboracion.get();
         }
     }
 
@@ -56,5 +58,10 @@ public class ColaboracionService {
     public List<Colaboracion> listarColaboraciones(Long id){
         List<Colaboracion> colaboraciones = colaboracionRepository.findByUsuarioId(id);
         return colaboraciones;
+    }
+
+    public List<Colaboracion> listarColaboradores(Long id){
+        List<Colaboracion> colaboradores = colaboracionRepository.findByNotaId(id);
+        return colaboradores;
     }
 }

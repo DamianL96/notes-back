@@ -32,15 +32,15 @@ public class NotaController {
     }
 
     @PutMapping
-    public ResponseEntity modificarNota(@RequestBody @Valid DtoModificarNota datos){
-        var detalleDeNota = notaService.modificarNota(datos);
+    public ResponseEntity modificarNota(@RequestBody @Valid DtoModificarNota datosNota, @AuthenticationPrincipal Usuario usuario){
+        var detalleDeNota = notaService.modificarNota(datosNota, usuario);
         return ResponseEntity.ok(detalleDeNota);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity eliminarNota(@PathVariable Long id){
-        notaService.eliminarNota(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity eliminarNota(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario){
+        notaService.eliminarNota(id, usuario);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
