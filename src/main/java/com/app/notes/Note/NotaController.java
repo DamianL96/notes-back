@@ -26,8 +26,8 @@ public class NotaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity mostrarDetalleNota(@PathVariable Long id){
-        var detalleDeNota = notaService.mostrarDetalleNota(id);
+    public ResponseEntity mostrarDetalleNota(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario){
+        var detalleDeNota = notaService.mostrarDetalleNota(id, usuario.getId());
         return ResponseEntity.ok(detalleDeNota);
     }
 

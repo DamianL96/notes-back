@@ -5,7 +5,6 @@ import com.app.notes.User.dto.DtoDetalleUsuario;
 import com.app.notes.User.dto.DtoModificarNombreUsuario;
 import com.app.notes.User.repository.UsuarioRepository;
 import com.app.notes.infrastructure.exceptions.UserNotFoundException;
-import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

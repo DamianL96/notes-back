@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 //Maneja las excepciones globalmente
 @ControllerAdvice
-public class AuthExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleEmailExists(EmailAlreadyExistsException ex){
@@ -62,6 +62,28 @@ public class AuthExceptionHandler {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 "UserNotFoundException",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(NotaNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotaNotFound(NotaNotFoundException ex){
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "NotaNotFoundException",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(ColaborationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleColaborationNotFound(ColaborationNotFoundException ex){
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "ColaborationNotFoundException",
                 ex.getMessage(),
                 LocalDateTime.now()
         );

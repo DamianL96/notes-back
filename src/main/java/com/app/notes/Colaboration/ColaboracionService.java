@@ -3,13 +3,18 @@ package com.app.notes.Colaboration;
 import com.app.notes.Colaboration.dto.DtoAgregarColaborador;
 import com.app.notes.Note.Nota;
 import com.app.notes.User.Usuario;
+import com.app.notes.infrastructure.exceptions.ColaborationNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+
+@AllArgsConstructor
 
 @Service
 public class ColaboracionService {
@@ -20,13 +25,19 @@ public class ColaboracionService {
     private EntityManager entityManager;
 
 
-    public ColaboracionService(ColaboracionRepository colaboracionRepo){
-        this.colaboracionRepository = colaboracionRepo;
-    }
-
     public void crearColaboracionPropietario(Usuario usuario, Nota nota){
         var colaboracion = new Colaboracion(usuario, nota);
         colaboracionRepository.save(colaboracion);
+    }
+
+    //buscar colaboracion de un usuario y nota especificamente
+    public void verificarColaboracionUsuarioNota(Long id_nota, Long id_usuario){
+        Optional<Colaboracion> colaboracion =
+                colaboracionRepository.findByUsuarioIdAndNotaId(id_usuario, id_nota);
+
+        if(colaboracion.isEmpty()){
+            throw new ColaborationNotFoundException("No existe una colaboracion entre el usuario"+id_usuario+" y la nota "+id_nota);
+        }
     }
 
     public void agregarColaborador(Long id_nota, DtoAgregarColaborador datos){
@@ -36,14 +47,14 @@ public class ColaboracionService {
         colaboracionRepository.save(colaboracion);
     }
 
+
     public void removerColaborador(Long id_colaboracion){
         colaboracionRepository.deleteById(id_colaboracion);
     }
 
+
     public List<Colaboracion> listarColaboraciones(Long id){
         List<Colaboracion> colaboraciones = colaboracionRepository.findByUsuarioId(id);
-
-        
         return colaboraciones;
     }
 }
