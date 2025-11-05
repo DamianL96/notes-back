@@ -1,6 +1,6 @@
 package com.app.notes.infrastructure.security;
 
-import com.app.notes.User.Usuario;
+import com.app.notes.Entity.User.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

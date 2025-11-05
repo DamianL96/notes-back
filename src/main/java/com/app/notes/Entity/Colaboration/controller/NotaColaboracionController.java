@@ -1,0 +1,32 @@
+package com.app.notes.Entity.Colaboration.controller;
+
+import com.app.notes.Entity.Colaboration.ColaboracionService;
+import com.app.notes.Entity.Colaboration.dto.DtoAgregarColaborador;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/notas/{id}/colaboraciones")
+public class NotaColaboracionController {
+
+    private final ColaboracionService colaboracionService;
+
+    public NotaColaboracionController(ColaboracionService colaboracionServ){
+        this.colaboracionService = colaboracionServ;
+    }
+
+    @PostMapping
+    public ResponseEntity agregarColaborador(@PathVariable Long id, @RequestBody @Valid DtoAgregarColaborador datos){
+
+        colaboracionService.agregarColaborador(id, datos);
+        return ResponseEntity.ok().body("colaborador agregado con exito");
+    }
+
+    @DeleteMapping("/{id_colaboracion}")
+    public ResponseEntity removerColaborador(@PathVariable Long id_colaboracion){
+        colaboracionService.removerColaborador(id_colaboracion);
+        return ResponseEntity.ok().body("Colaborador removido con exito");
+    }
+
+}

@@ -1,19 +1,12 @@
 package com.app.notes.Auth;
 
-import com.app.notes.User.dto.DtoDetalleUsuario;
-import com.app.notes.User.dto.DtoLoginUsuario;
-import com.app.notes.User.dto.DtoRegistroUsuario;
-import com.app.notes.User.Usuario;
-import com.app.notes.User.repository.UsuarioRepository;
+import com.app.notes.Entity.User.dto.DtoDetalleUsuario;
+import com.app.notes.Entity.User.dto.DtoLoginUsuario;
+import com.app.notes.Entity.User.dto.DtoRegistroUsuario;
 import com.app.notes.infrastructure.security.DTOTokenJWT;
-import com.app.notes.infrastructure.security.TokenService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

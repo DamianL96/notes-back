@@ -1,9 +1,9 @@
 package com.app.notes.Auth;
 
-import com.app.notes.User.Usuario;
-import com.app.notes.User.dto.DtoLoginUsuario;
-import com.app.notes.User.dto.DtoRegistroUsuario;
-import com.app.notes.User.repository.UsuarioRepository;
+import com.app.notes.Entity.User.Usuario;
+import com.app.notes.Entity.User.dto.DtoLoginUsuario;
+import com.app.notes.Entity.User.dto.DtoRegistroUsuario;
+import com.app.notes.Entity.User.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ public class AuthControllerTest {
     @Test
     void testRegistroDuplicado() throws Exception{
 
-        usuarioRepository.save(new com.app.notes.User.Usuario(new DtoRegistroUsuario("Existente@test","nombre existente", passwordEncoder.encode("123456"))));
+        usuarioRepository.save(new Usuario(new DtoRegistroUsuario("Existente@test","nombre existente", passwordEncoder.encode("123456"))));
 
         DtoRegistroUsuario dto = new DtoRegistroUsuario("Existente@test","nombre existente","123456");
 
@@ -63,7 +63,7 @@ public class AuthControllerTest {
 
     @Test
     void testLoginExitoso() throws Exception{
-        usuarioRepository.save(new com.app.notes.User.Usuario(new DtoRegistroUsuario("login@test.com","nombre login", passwordEncoder.encode("123456"))));
+        usuarioRepository.save(new Usuario(new DtoRegistroUsuario("login@test.com","nombre login", passwordEncoder.encode("123456"))));
 
         DtoLoginUsuario dto = new DtoLoginUsuario("login@test.com","123456");
 

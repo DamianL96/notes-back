@@ -1,6 +1,6 @@
 package com.app.notes.infrastructure.security;
 
-import com.app.notes.User.repository.UsuarioRepository;
+import com.app.notes.Entity.User.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
