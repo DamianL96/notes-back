@@ -4,6 +4,8 @@ import com.app.notes.Entity.Colaboration.dto.DtoAgregarColaborador;
 import com.app.notes.Entity.Colaboration.dto.DtoMisColaboraciones;
 import com.app.notes.Entity.Note.Nota;
 import com.app.notes.Entity.User.Usuario;
+import com.app.notes.Validations.NoteValidations.ValidarExistenciaDeNota;
+import com.app.notes.Validations.NoteValidations.ValidarPermisos;
 import com.app.notes.infrastructure.exceptions.ColaborationNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -22,6 +24,9 @@ public class ColaboracionService {
 
     private final ColaboracionRepository colaboracionRepository;
 
+    private ValidarExistenciaDeNota VExistenciaDeNota;
+    private ValidarPermisos VPermisos;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -32,6 +37,7 @@ public class ColaboracionService {
     }
 
     public void agregarColaborador(Long id_nota, DtoAgregarColaborador datos){
+
 
         //validar existencia de la nota
         //verificar propietario
