@@ -2,8 +2,10 @@ package com.app.notes.Entity.Colaboration.controller;
 
 import com.app.notes.Entity.Colaboration.ColaboracionService;
 import com.app.notes.Entity.Colaboration.dto.DtoAgregarColaborador;
+import com.app.notes.Entity.User.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,9 +19,12 @@ public class NotaColaboracionController {
     }
 
     @PostMapping
-    public ResponseEntity agregarColaborador(@PathVariable Long id, @RequestBody @Valid DtoAgregarColaborador datos){
+    public ResponseEntity agregarColaborador(
+            @PathVariable Long id,
+            @RequestBody @Valid DtoAgregarColaborador datos,
+            @AuthenticationPrincipal Usuario usuario){
 
-        colaboracionService.agregarColaborador(id, datos);
+        colaboracionService.agregarColaborador(id, usuario, datos);
         return ResponseEntity.ok().body("colaborador agregado con exito");
     }
 

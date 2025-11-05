@@ -5,6 +5,7 @@ import com.app.notes.Entity.Colaboration.dto.DtoMisColaboraciones;
 import com.app.notes.Entity.Note.Nota;
 import com.app.notes.Entity.User.Usuario;
 import com.app.notes.Validations.ColaborationValidations.ValidarDuplicadoDeColaboracion;
+import com.app.notes.Validations.ColaborationValidations.ValidarExistenciaDeColaboracion;
 import com.app.notes.Validations.NoteValidations.ValidarExistenciaDeNota;
 import com.app.notes.Validations.NoteValidations.ValidarPermisos;
 import com.app.notes.Validations.UserValidations.ValidarExistenciaDeUsuario;
@@ -28,6 +29,7 @@ public class ColaboracionService {
 
     private ValidarExistenciaDeNota VExistenciaDeNota;
     private ValidarPermisos VPermisos;
+    private ValidarExistenciaDeColaboracion VExistenciaDeColaboracion;
     private ValidarExistenciaDeUsuario VExistenciaDeUsuario;
     private ValidarDuplicadoDeColaboracion VDuplicadoDeColaboracion;
 
@@ -41,17 +43,18 @@ public class ColaboracionService {
         colaboracionRepository.save(colaboracion);
     }
 
-    public void agregarColaborador(Long idNota, Usuario usuario, DtoAgregarColaborador datos){
+    public void agregarColaborador(Long idNota, Usuario usuario, DtoAgregarColaborador colaborador){
 
         //validar existencia de la nota, permisos, colaborador, duplicado
         VExistenciaDeNota.validarNotaSiExiste(idNota);
-
-
-        //VPermisos.esPropietario(usuario);
+        var usuarioColaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(idNota, usuario.getId());
+        VPermisos.esPropietario(usuarioColaboracion);
+        VExistenciaDeUsuario.validarUsuarioSiExiste(colaborador.id_usuario());
+        VDuplicadoDeColaboracion.buscarColaboracionSiExiste(colaborador.id_usuario(), idNota);
 
         Nota nota = entityManager.getReference(Nota.class, idNota);
-        Usuario nuevoColaborador = entityManager.getReference(Usuario.class, datos.id_usuario());
-        var colaboracion = new Colaboracion(nuevoColaborador,nota,datos.rol());
+        Usuario nuevoColaborador = entityManager.getReference(Usuario.class, colaborador.id_usuario());
+        var colaboracion = new Colaboracion(nuevoColaborador,nota,colaborador.rol());
         colaboracionRepository.save(colaboracion);
     }
 

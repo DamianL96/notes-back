@@ -53,7 +53,7 @@ public class NotaService {
         var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(datos.id(), usuario.getId());
 
         //verificar los permisos
-        VPermisos.puedeEditar(colaboracion.getRol());
+        VPermisos.puedeEditar(colaboracion);
 
         nota.actiualizarDatos(datos);
         return new DtoDetalleNota(nota);
@@ -65,7 +65,7 @@ public class NotaService {
         //validar la existencia de la nota, colaboracion y permisos
         VExistenciaDeNota.validarNotaSiExiste(idNota);
         var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(idNota, usuario.getId());
-        VPermisos.esPropietario(colaboracion.getRol());
+        VPermisos.esPropietario(colaboracion);
 
         //buscar todos los colaboradores de una nota especifica
         List<Colaboracion> colaboradores = colaboracionService.listarColaboradores(idNota);
