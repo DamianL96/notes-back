@@ -12,6 +12,8 @@ public interface ColaboracionRepository extends JpaRepository<Colaboracion,Long>
 
     Optional<Colaboracion> findByUsuarioIdAndNotaId(@NotNull Long usuarioId, @NotNull Long notaId);
 
+    boolean existsByUsuarioIdAndNotaId(@NotNull Long usuarioId, @NotNull Long notaId);
+
     Page<Colaboracion> findByUsuarioId(Long usuarioId, Pageable paginacion);
 
     List<Colaboracion> findByNotaId(@NotNull Long notaId);

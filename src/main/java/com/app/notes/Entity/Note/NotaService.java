@@ -57,24 +57,18 @@ public class NotaService {
         var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(datos.id(), usuario.getId());
 
         //verificar los permisos
-        if(colaboracion.getRol() == Rol.LECTOR){
-            throw new WrongRolException("No tienes permiso para editar esta nota");
-        }
+        VPermisosDeEdicion.puedeEditar(colaboracion.getRol());
 
-        //var nota = notaRepository.getReferenceById(datos.id());
         nota.actiualizarDatos(datos);
         return new DtoDetalleNota(nota);
     }
 
     @Transactional
     public void eliminarNota(Long idNota, Usuario usuario){
-        //verificar la existencia de la nota
-        var nota = VExistenciaDeNota.obtenerNotaSiExiste(idNota);
 
-        //validar la colaboracion
+        //validar la existencia de la nota, colaboracion y permisos
+        VExistenciaDeNota.validarNotaSiExiste(idNota);
         var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(idNota, usuario.getId());
-
-        //validar los permisos
         VPermisosDeEdicion.puedeEditar(colaboracion.getRol());
 
         //buscar todos los colaboradores de una nota especifica

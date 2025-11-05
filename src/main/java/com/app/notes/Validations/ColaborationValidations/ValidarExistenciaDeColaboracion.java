@@ -27,10 +27,7 @@ public class ValidarExistenciaDeColaboracion {
     }
 
     public void validarColaboracionSiExiste(Long idNota, Long idUsuario){
-        Optional<Colaboracion> colaboracion =
-                colaboracionRepo.findByUsuarioIdAndNotaId(idUsuario,idNota);
-
-        if(colaboracion.isEmpty()){
+        if(!colaboracionRepo.existsByUsuarioIdAndNotaId(idUsuario,idNota)){
             throw new ColaborationNotFoundException("No existe una colaboracion entre el usuario "+idUsuario+" y la nota "+idNota);
         }
     }
