@@ -7,6 +7,7 @@ import com.app.notes.Entity.Note.dto.DtoDetalleNota;
 import com.app.notes.Entity.Note.dto.DtoModificarNota;
 import com.app.notes.Entity.User.Usuario;
 import com.app.notes.Entity.User.repository.UsuarioRepository;
+import com.app.notes.Validations.ColaborationValidations.ValidarExistenciaDeColaboracion;
 import com.app.notes.Validations.NoteValidations.ValidarExistenciaDeNota;
 import com.app.notes.Validations.NoteValidations.ValidarPermisosDeEdicion;
 import com.app.notes.infrastructure.exceptions.NotaNotFoundException;
@@ -23,10 +24,10 @@ public class NotaService {
 
     private final NotaRepository notaRepository;
     private final ColaboracionService colaboracionService;
-    private final UsuarioRepository usuarioRepository;
 
     private ValidarExistenciaDeNota VExistenciaDeNota;
     private ValidarPermisosDeEdicion VPermisosDeEdicion;
+    private ValidarExistenciaDeColaboracion VExistenciaDeColaboracion;
 
 
     public DtoDetalleNota crearNota(Usuario usuario){
@@ -42,7 +43,7 @@ public class NotaService {
         var nota = VExistenciaDeNota.obtenerNotaSiExiste(notaId);
 
         //verificar que el usuario tenga acceso
-        colaboracionService.verificarColaboracionUsuarioNota(notaId, usuarioId);
+        VExistenciaDeColaboracion.validarColaboracionSiExiste(notaId,usuarioId);
 
         return new DtoDetalleNota(nota);
     }
@@ -53,7 +54,7 @@ public class NotaService {
         var nota = VExistenciaDeNota.obtenerNotaSiExiste(datos.id());
 
         //verificar la colaboracion
-        var colaboracion = colaboracionService.verificarColaboracionUsuarioNota(datos.id(), usuario.getId());
+        var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(datos.id(), usuario.getId());
 
         //verificar los permisos
         if(colaboracion.getRol() == Rol.LECTOR){
@@ -71,7 +72,7 @@ public class NotaService {
         var nota = VExistenciaDeNota.obtenerNotaSiExiste(idNota);
 
         //validar la colaboracion
-        var colaboracion = colaboracionService.verificarColaboracionUsuarioNota(idNota, usuario.getId());
+        var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(idNota, usuario.getId());
 
         //validar los permisos
         VPermisosDeEdicion.puedeEditar(colaboracion.getRol());

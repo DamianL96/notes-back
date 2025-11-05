@@ -31,18 +31,6 @@ public class ColaboracionService {
         colaboracionRepository.save(colaboracion);
     }
 
-    //buscar colaboracion de un usuario y nota especificamente
-    public Colaboracion verificarColaboracionUsuarioNota(Long id_nota, Long id_usuario){
-        Optional<Colaboracion> colaboracion =
-                colaboracionRepository.findByUsuarioIdAndNotaId(id_usuario, id_nota);
-
-        if(colaboracion.isEmpty()){
-            throw new ColaborationNotFoundException("No existe una colaboracion entre el usuario"+id_usuario+" y la nota "+id_nota);
-        }else {
-            return colaboracion.get();
-        }
-    }
-
     public void agregarColaborador(Long id_nota, DtoAgregarColaborador datos){
 
         //validar existencia de la nota
