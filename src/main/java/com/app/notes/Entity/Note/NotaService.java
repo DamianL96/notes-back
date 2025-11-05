@@ -8,6 +8,7 @@ import com.app.notes.Entity.Note.dto.DtoModificarNota;
 import com.app.notes.Entity.User.Usuario;
 import com.app.notes.Entity.User.repository.UsuarioRepository;
 import com.app.notes.Validations.NoteValidations.ValidarExistenciaDeNota;
+import com.app.notes.Validations.NoteValidations.ValidarPermisosDeEdicion;
 import com.app.notes.infrastructure.exceptions.NotaNotFoundException;
 import com.app.notes.infrastructure.exceptions.WrongRolException;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,8 @@ public class NotaService {
     private final ColaboracionService colaboracionService;
     private final UsuarioRepository usuarioRepository;
 
-    private ValidarExistenciaDeNota validarExistenciaDeNota;
+    private ValidarExistenciaDeNota VExistenciaDeNota;
+    private ValidarPermisosDeEdicion VPermisosDeEdicion;
 
 
     public DtoDetalleNota crearNota(Usuario usuario){
@@ -37,7 +39,7 @@ public class NotaService {
     public DtoDetalleNota mostrarDetalleNota(Long notaId, Long usuarioId){
 
         //validar que la nota exista
-        var nota = validarExistenciaDeNota.obtenerNotaSiExiste(notaId);
+        var nota = VExistenciaDeNota.obtenerNotaSiExiste(notaId);
 
         //verificar que el usuario tenga acceso
         colaboracionService.verificarColaboracionUsuarioNota(notaId, usuarioId);
@@ -48,7 +50,7 @@ public class NotaService {
     @Transactional
     public DtoDetalleNota modificarNota(DtoModificarNota datos, Usuario usuario){
         //verificar la existencia de la nota
-        var nota = validarExistenciaDeNota.obtenerNotaSiExiste(datos.id());
+        var nota = VExistenciaDeNota.obtenerNotaSiExiste(datos.id());
 
         //verificar la colaboracion
         var colaboracion = colaboracionService.verificarColaboracionUsuarioNota(datos.id(), usuario.getId());
@@ -66,15 +68,13 @@ public class NotaService {
     @Transactional
     public void eliminarNota(Long idNota, Usuario usuario){
         //verificar la existencia de la nota
-        var nota = validarExistenciaDeNota.obtenerNotaSiExiste(idNota);
+        var nota = VExistenciaDeNota.obtenerNotaSiExiste(idNota);
 
-        //verificar la colaboracion
+        //validar la colaboracion
         var colaboracion = colaboracionService.verificarColaboracionUsuarioNota(idNota, usuario.getId());
 
-        //verificar los permisos
-        if(colaboracion.getRol() != Rol.PROPIETARIO){
-            throw new WrongRolException("No tienes permiso para borrar esta nota");
-        }
+        //validar los permisos
+        VPermisosDeEdicion.puedeEditar(colaboracion.getRol());
 
         //buscar todos los colaboradores de una nota especifica
         List<Colaboracion> colaboradores = colaboracionService.listarColaboradores(idNota);
