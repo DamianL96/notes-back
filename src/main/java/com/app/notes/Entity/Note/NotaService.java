@@ -7,12 +7,15 @@ import com.app.notes.Entity.Note.dto.DtoDetalleNota;
 import com.app.notes.Entity.Note.dto.DtoModificarNota;
 import com.app.notes.Entity.User.Usuario;
 import com.app.notes.Entity.User.repository.UsuarioRepository;
+import com.app.notes.Validations.NoteValidations.ValidarExistenciaDeNota;
 import com.app.notes.infrastructure.exceptions.NotaNotFoundException;
 import com.app.notes.infrastructure.exceptions.WrongRolException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+@AllArgsConstructor
 
 @Service
 public class NotaService {
@@ -21,11 +24,8 @@ public class NotaService {
     private final ColaboracionService colaboracionService;
     private final UsuarioRepository usuarioRepository;
 
-    public NotaService( NotaRepository notaRepo, ColaboracionService colaboracionServ, UsuarioRepository usuarioRepo){
-        this.notaRepository = notaRepo;
-        this.colaboracionService = colaboracionServ;
-        this.usuarioRepository = usuarioRepo;
-    }
+    private ValidarExistenciaDeNota validarExistenciaDeNota;
+
 
     public DtoDetalleNota crearNota(Usuario usuario){
         var nota = new Nota();//crea la nota vacia
@@ -37,8 +37,7 @@ public class NotaService {
     public DtoDetalleNota mostrarDetalleNota(Long notaId, Long usuarioId){
 
         //validar que la nota exista
-        var nota = notaRepository.findById(notaId)
-                .orElseThrow(()-> new NotaNotFoundException("La nota con el id"+notaId+"no existe"));
+        var nota = validarExistenciaDeNota.obtenerNotaSiExiste(notaId);
 
         //verificar que el usuario tenga acceso
         colaboracionService.verificarColaboracionUsuarioNota(notaId, usuarioId);
@@ -49,11 +48,11 @@ public class NotaService {
     @Transactional
     public DtoDetalleNota modificarNota(DtoModificarNota datos, Usuario usuario){
         //verificar la existencia de la nota
-        var nota = notaRepository.findById(datos.id())
-                .orElseThrow(()-> new NotaNotFoundException("La nota con el id "+datos.id()+" no existe"));
+        var nota = validarExistenciaDeNota.obtenerNotaSiExiste(datos.id());
 
         //verificar la colaboracion
         var colaboracion = colaboracionService.verificarColaboracionUsuarioNota(datos.id(), usuario.getId());
+
         //verificar los permisos
         if(colaboracion.getRol() == Rol.LECTOR){
             throw new WrongRolException("No tienes permiso para editar esta nota");
@@ -67,8 +66,7 @@ public class NotaService {
     @Transactional
     public void eliminarNota(Long idNota, Usuario usuario){
         //verificar la existencia de la nota
-        var nota = notaRepository.findById(idNota)
-                .orElseThrow(()-> new NotaNotFoundException("La nota con el id "+idNota+" no existe"));
+        var nota = validarExistenciaDeNota.obtenerNotaSiExiste(idNota);
 
         //verificar la colaboracion
         var colaboracion = colaboracionService.verificarColaboracionUsuarioNota(idNota, usuario.getId());
