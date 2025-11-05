@@ -2,16 +2,12 @@ package com.app.notes.Entity.Note;
 
 import com.app.notes.Entity.Colaboration.Colaboracion;
 import com.app.notes.Entity.Colaboration.ColaboracionService;
-import com.app.notes.Entity.Colaboration.Rol;
 import com.app.notes.Entity.Note.dto.DtoDetalleNota;
 import com.app.notes.Entity.Note.dto.DtoModificarNota;
 import com.app.notes.Entity.User.Usuario;
-import com.app.notes.Entity.User.repository.UsuarioRepository;
 import com.app.notes.Validations.ColaborationValidations.ValidarExistenciaDeColaboracion;
 import com.app.notes.Validations.NoteValidations.ValidarExistenciaDeNota;
-import com.app.notes.Validations.NoteValidations.ValidarPermisosDeEdicion;
-import com.app.notes.infrastructure.exceptions.NotaNotFoundException;
-import com.app.notes.infrastructure.exceptions.WrongRolException;
+import com.app.notes.Validations.NoteValidations.ValidarPermisos;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +22,7 @@ public class NotaService {
     private final ColaboracionService colaboracionService;
 
     private ValidarExistenciaDeNota VExistenciaDeNota;
-    private ValidarPermisosDeEdicion VPermisosDeEdicion;
+    private ValidarPermisos VPermisos;
     private ValidarExistenciaDeColaboracion VExistenciaDeColaboracion;
 
 
@@ -57,7 +53,7 @@ public class NotaService {
         var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(datos.id(), usuario.getId());
 
         //verificar los permisos
-        VPermisosDeEdicion.puedeEditar(colaboracion.getRol());
+        VPermisos.puedeEditar(colaboracion.getRol());
 
         nota.actiualizarDatos(datos);
         return new DtoDetalleNota(nota);
@@ -69,7 +65,7 @@ public class NotaService {
         //validar la existencia de la nota, colaboracion y permisos
         VExistenciaDeNota.validarNotaSiExiste(idNota);
         var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(idNota, usuario.getId());
-        VPermisosDeEdicion.puedeEditar(colaboracion.getRol());
+        VPermisos.puedeEliminar(colaboracion.getRol());
 
         //buscar todos los colaboradores de una nota especifica
         List<Colaboracion> colaboradores = colaboracionService.listarColaboradores(idNota);

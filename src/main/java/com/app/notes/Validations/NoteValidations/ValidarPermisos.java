@@ -5,10 +5,16 @@ import com.app.notes.infrastructure.exceptions.WrongRolException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidarPermisosDeEdicion{
+public class ValidarPermisos {
     public void puedeEditar(Rol rol){
         if(rol == Rol.LECTOR){
             throw new WrongRolException("No tienes permiso para editar esta nota");
+        }
+    }
+
+    public void puedeEliminar(Rol rol){
+        if(rol != Rol.PROPIETARIO){
+            throw new WrongRolException("No tienes permiso para eiminar esta nota");
         }
     }
 }
