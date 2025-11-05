@@ -12,7 +12,7 @@ public class ValidarPermisos {
         }
     }
 
-    public void puedeEliminar(Rol rol){
+    public void esPropietario(Rol rol){
         if(rol != Rol.PROPIETARIO){
             throw new WrongRolException("No tienes permiso para eiminar esta nota");
         }

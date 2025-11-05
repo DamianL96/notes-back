@@ -65,7 +65,7 @@ public class NotaService {
         //validar la existencia de la nota, colaboracion y permisos
         VExistenciaDeNota.validarNotaSiExiste(idNota);
         var colaboracion = VExistenciaDeColaboracion.obtenerColaboracionSiExiste(idNota, usuario.getId());
-        VPermisos.puedeEliminar(colaboracion.getRol());
+        VPermisos.esPropietario(colaboracion.getRol());
 
         //buscar todos los colaboradores de una nota especifica
         List<Colaboracion> colaboradores = colaboracionService.listarColaboradores(idNota);
