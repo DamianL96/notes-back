@@ -2,6 +2,8 @@ package com.app.notes.Entity.Note;
 
 import com.app.notes.Entity.Colaboration.Colaboracion;
 import com.app.notes.Entity.Colaboration.ColaboracionService;
+import com.app.notes.Entity.Colaboration.dto.DtoColaboracion;
+import com.app.notes.Entity.Colaboration.dto.DtoColaborador;
 import com.app.notes.Entity.Note.dto.DtoDetalleNota;
 import com.app.notes.Entity.Note.dto.DtoModificarNota;
 import com.app.notes.Entity.User.Usuario;
@@ -68,10 +70,10 @@ public class NotaService {
         VPermisos.esPropietario(colaboracion);
 
         //buscar todos los colaboradores de una nota especifica
-        List<Colaboracion> colaboradores = colaboracionService.listarColaboradores(idNota);
+        List<DtoColaboracion> colaboradores = colaboracionService.listarColaboraciones(idNota,usuario);
 
         //remover todos los colaboradores de una nota especifica
-        colaboradores.forEach(colaborador-> colaboracionService.removerColaborador(colaborador.getId()));
+        colaboradores.forEach(colab-> colaboracionService.removerColaborador(colab.idColaboracion()));
 
         //despues de remover todas las colaboraciones se elimina la nota
         notaRepository.deleteById(idNota);

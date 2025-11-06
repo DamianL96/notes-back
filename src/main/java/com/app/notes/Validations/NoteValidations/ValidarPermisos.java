@@ -18,7 +18,7 @@ public class ValidarPermisos {
 
     public void esPropietario(Colaboracion colaboracion){
         if(colaboracion.getRol() != Rol.PROPIETARIO){
-            throw new WrongRolException("No tienes permiso para eiminar esta nota");
+            throw new WrongRolException("Debes ser propietario de la nota para realizar esa acción");
         }
     }
 }
